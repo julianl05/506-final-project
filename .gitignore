@@ -1,13 +1,16 @@
 # Data files - Don't commit large datasets
-data/raw/
-data/processed/
+# Ignore contents of data directories but keep structure
+data/raw/**/*
+data/processed/**/*
 
-# But keep the folder structure
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# But keep directory structure and .gitkeep files
+!data/raw/dates/
+!data/raw/trips/
+!data/raw/weather/
+!data/**/.gitkeep
 
 # Exception: small manually created files can be committed
-!data/raw/calendar_features.csv
+!data/raw/dates/calendar_features.csv
 
 # Compressed files
 *.zip
