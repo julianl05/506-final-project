@@ -1,16 +1,16 @@
-# Blue Bikes Station Demand Prediction
+# Blue Bikes Station Demand Prediction Project Proposal
 ## Description
 This project will predict the number of bike trips starting from Boston Blue Bikes stations on any given date using historical usage patterns, weather conditions, and time/date based factors. The goal is to create a practical forecasting tool that could help users plan bike trips and assist the Blue Bikes system with resource allocation decisions. Personally, I have found myself in numerous situations where I would have planned a trip the night before based off the assumption that there would be blue bikes available at the nearest station, only to wake up the next morning to find out that there were in fact no blue bikes available, which always infuriated me.
 ## Goal
-Predict/estimate the total number of blue bike trips that will start from each station on a given date (which will indicate how busy the station will be on that date) using the following factors: weather, special dates(holidays, events, etc.), days of the week, location, etc. Potentially have the option to separately predict between E-bike trips and Classic bike trips. I plan on treating this as a regression problem and not a time series problem as I'm predicting based on multiple types of features (time, weather, date, etc.) in addition to using historical values for the stations as a basis for determining relationships.
+Predict the number of blue bike trips a station will have on a given date (which will indicate how busy the station will be on that date) using the following factors: weather, special dates(holidays, events, etc.), days of the week, location, etc. I plan on treating this as a regression problem and not a time series problem as I'm predicting based on multiple types of features (time, weather, date, etc.) in addition to using historical values for the stations as a basis for determining relationships.
 ## What Data Needs to be Collected and How I Will Collect It
 Historical trip data will be downloaded from the Blue Bikes system data portal (https://www.bluebikes.com/system-data) covering post-COVID (2022-2025) years of ride records with start/end stations, timestamps, and bike types. These trip records are all very large csv files. Station information including locations, capacity, and city/town name will also be collected from the same portal, also in the form of csv files. Weather data will be collected using either OpenWeatherMap API (https://openweathermap.org/api), Open-Meteo API (https://open-meteo.com/), or the NOAA's publicly available climate datasets (https://www.ncdc.noaa.gov/cdo-web/) for corresponding time periods, including temperature, precipitation, and weather conditions. Currently, still looking at which source of weather data is most conveniently accessible. Time based features like important dates will be taken from the Boston University academic calendar (https://www.bu.edu/reg/calendars/) to capture usage pattern variations, extracted from the site by either manually writing down dates or scraping the site. Collecting the data seems to be the less time consuming part, whereas cleaning it seems like it would take a long while due to the sheer amount.
 ## How I Plan on Modeling the Data
-I plan to use regression methods to predict daily trip counts, as this is a prediction problem with numerical targets. The approach will handle mixed data types including time/date variables (day of week, holidays), weather conditions (temperature, raining/sunny/cloudy, humidity), and station characteristics (capacity, location, proximity to transit). The specific modeling technique will be determined based on methods covered in class and initial data exploration results, although so far having looked into XGBoost regression it seems like a viable option as it deals with mixed data types well. In accordance with TA recommendation, I will start with a baseline method (probably just a simple historical average) and then try 2 additional methods (likely linear regression and then XGBoost or some other viable option), which will allow me to compare results and see improvements.
+I plan to use regression methods to predict daily trip counts, as this is a prediction problem with numerical targets. The approach will handle mixed data types including time/date variables (day of week, holidays), weather conditions (temperature, raining/sunny/cloudy, humidity), and station characteristics (capacity, location, proximity to transit). The specific modeling technique will be determined based on methods covered in class and initial data exploration results, although so far having looked into XGBoost regression it seems like a viable option as it deals with mixed data types well. In accordance with TA recommendation, I will start with a baseline method (linear regression) and then try a couple additional methods (likely XGBoost or other options depending on baseline model performance), which will allow me to compare results and see improvements.
 ## How I Plan on Visualizing the Data
 Visualizations will include scatter plots showing relationships between key features and trip demand, and heat maps displaying predicted demand patterns across stations and time periods. As a final product, I also want to have an interactive one page web app that will display a map of Boston with clickable Blue Bikes stations where users can select a station and future date to see predicted trip demand. 
 ## What is My Test Plan
-The model will be trained on historical data from 2022-2024 and tested on 2025 data to ensure it can predict future trip patterns. Will compare the predicted results for each datapoint to the actual results to determine accuracy.
+The model will be trained on historical data from 2022-2024 and tested on 2025 data to ensure it can predict future trip patterns. Will use Root Mean Squared Error and Mean Absolute Error to compare the predicted values to test values to determine accuracy. 
 
 ## Midterm Report
 
@@ -35,7 +35,7 @@ All datasets range from 1-1-2022 to 9-30-2025
 - Variables: temperature (min/max/mean), precipitation, wind speed, snowfall
 - Initial Format: One row per day
 
-**Calendar Data (Generated manually):**
+**Calendar Data (Generated manually using getCalendarFeatures.py):**
 - Federal holidays from 2022-2025 (New Year's, MLK Day, Memorial Day, etc.)
 - BU Academic calendar breaks (Winter break, Spring break, Summer, Thanksgiving)
 - Format: Generated CSV using Python's holidays and pandas modules with `date`, `is_holiday`, `day_of_week`, `is_academic_break` columns
@@ -85,7 +85,7 @@ Even after ID mapping, some duplicate stations still remained because they were 
 **Solution:** For each unique station name, consolidate to a single preferred ID (favoring the new format alphanumeric IDs over numeric ones), then re-aggregate trip counts.
 
 #### Processing Steps
-Primarily used pandas Python module for processing and cleaning. See detailed steps in the process_data.ipynb <br/>
+Primarily used pandas Python module for processing and cleaning. See detailed workflow in the process_data.ipynb <br/>
 **1. Trip Data Aggregation:**
 - Loaded all 45 monthly CSVs with 15.7 million trips (rows)
 - Standardized columns and station IDs (challenges faced detailed above)
@@ -101,8 +101,8 @@ Primarily used pandas Python module for processing and cleaning. See detailed st
 - Result: 1,369 daily weather values
 
 **3. Calendar Features:**
-- Created CSV manually with federal holidays (44 days) using Python holidays module
-- Added BU academic breaks using university calendar (599 days across all breaks)
+- Created CSV manually with federal holidays (44 days) using getCalendarFeatures.py script
+- For academic breaks, used BU academic calendar (599 days across all breaks)
 - Included `day_of_week` (0=Monday, 6=Sunday) for each date
 - Result: 1,461 days with calendar features
 
@@ -241,7 +241,7 @@ This view better captures the true relationships:
 
 **Model Choice:** Linear Regression (baseline)
 
-I started with linear regression as a baseline to establish what a simple model can achieve. This gives me a benchmark to beat with more complex models later. You can see my detailed process in the linear_modeling.ipynb.
+I started with a simple linear regression model as a baseline. This gives me a benchmark to beat with more complex models later. You can see my detailed process in the linear_modeling.ipynb.
 
 **Features Used:**
 
