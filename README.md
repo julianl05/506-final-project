@@ -269,6 +269,14 @@ Station location is the single most important predictor. By encoding it, each st
 ---
 
 ### 4. Preliminary Results
+**Evaluation Approach:**
+
+To evaluate our model, we use three standard regression metrics on both training (2022-2024) and test (2025) sets:
+- **RMSE (Root Mean Squared Error):** Measures average prediction error, penalizing large errors more heavily. Useful for understanding worst-case performance.
+- **MAE (Mean Absolute Error):** Average absolute difference between predicted and actual trips. More interpretable than RMSE - directly tells us "off by X trips on average."
+- **R² (Coefficient of Determination):** Proportion of variance explained by the model (0 = useless, 1 = perfect). Shows how much better the model is than just predicting the mean.
+
+By comparing training vs test performance, we can detect overfitting (model memorizing training data rather than learning generalizable patterns). Similar scores indicate the model generalizes well to future dates.
 
 **Model Performance:**
 
