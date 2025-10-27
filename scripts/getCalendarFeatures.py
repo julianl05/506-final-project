@@ -43,7 +43,7 @@ academic_breaks = [
 df['is_academic_break'] = 0
 
 # Mark all dates within break periods
-for start, end in bu_breaks:
+for start, end in academic_breaks:
     mask = (df['date'] >= start) & (df['date'] <= end)
     df.loc[mask, 'is_academic_break'] = 1
 
