@@ -1,21 +1,24 @@
-# Blue Bikes Station Demand Prediction Project Proposal
-## Description
-This project will predict the number of bike trips each Boston Blue Bikes station has on any given date using historical usage patterns, weather conditions, and time/date based factors. The goal is to create a practical forecasting tool that could help users plan bike trips and assist the Blue Bikes system with resource allocation decisions. Personally, I have found myself in numerous situations where I would have planned a trip the night before based off the assumption that there would be blue bikes available at the nearest station, only to wake up the next morning to find out that there were in fact no blue bikes available, which always infuriated me.
-## Goal
-Predict the number of blue bike trips a station will have on a given date (which will indicate how busy the station will be on that date) using the following factors: weather, special dates(holidays, events, etc.), days of the week, historical values, etc. I plan on treating this as a regression problem and not a time series problem as I'm predicting based on multiple types of features in addition to using historical values for the stations as a basis for determining relationships.
-## What Data Needs to be Collected and How I Will Collect It
-Historical trip data will be downloaded from the Blue Bikes system data portal (https://www.bluebikes.com/system-data) covering post-COVID (2022-2025) years of ride records with start/end stations, timestamps, and bike types. These trip records are all very large csv files. Station information including locations, capacity, and city/town name will also be collected from the same portal, also in the form of csv files. Weather data will be collected from the Open-Meteo Historical Data API (https://open-meteo.com/) for corresponding time periods, including temperature, precipitation, and weather conditions. Academic holidays will be taken from the Boston University academic calendar (https://www.bu.edu/reg/calendars/), extracted from the site manually. Federal holiday dates will be obtained using the Python holidays module.
-## How I Plan on Modeling the Data
-I plan to use regression methods to predict daily trip counts, as this is a prediction problem with numerical targets. The approach will handle mixed data types including time/date variables (day of week, holidays), weather conditions (temperature, raining/sunny/cloudy, humidity), and station characteristics (capacity, location, proximity to transit). The specific modeling technique will be determined based on methods covered in class and initial data exploration results, although so far having looked into XGBoost regression it seems like a viable option as it deals with mixed data types well. In accordance with TA recommendation, I will start with a baseline method (linear regression) and then try a couple additional methods (likely XGBoost or other options depending on baseline model performance), which will allow me to compare results and see improvements.
-## How I Plan on Visualizing the Data
-Visualizations will include scatter plots showing relationships between key features and trip demand, and heat maps displaying demand patterns across stations and time periods. As a final product, if time permits, I also want to have an interactive one page web app that will display a map of Boston with clickable Blue Bikes stations where users can select a station and future date to see predicted trip demand. 
-## What is My Test Plan
-The model will be trained on historical data from 2022-2024 and tested on 2025 data to ensure it can predict future trip patterns. Will use Root Mean Squared Error and Mean Absolute Error to compare the predicted values to test values to determine accuracy. 
-
-
+# Blue Bikes Station Demand Prediction Project
 # Midterm Report
 
 **Video Presentation:** [https://youtu.be/9Hh01-UWlYM]
+
+---
+## Introduction
+
+This project's goal is to predict daily trip demand at Boston Blue Bikes stations, i.e. estimating how many trips a bluebike station will have on a given date. Ideally, this would help blue bike users plan their trips in advance by knowing which stations will be busy and which won't be. Personally, I've found myself in numerous situations where I planned a trip the night before assuming there would be bikes available at the nearest station, only to wake up the next morning to find none available. This project aims to make bike availability more predictable.
+
+**Hypothesis:** I treat this as a regression problem, predicting daily trip counts based on multiple feature types. Based off personal experience, I believe weather, time(calendar/holidays) and historical trip data would affect trip counts the most, and thus would make the best features. I explore these relationships through visualisations and feature analysis that will be shown in this report.
+
+**Data Sources:** Historical trip data from the Blue Bikes system data portal (https://www.bluebikes.com/system-data), daily weather data from the Open-Meteo Historical Weather API (https://open-meteo.com/en/docs/historical-weather-ap), federal holidays from Python's holidays module, and BU's academic calendar (https://www.bu.edu/reg/calendars/) for academic holiday data.
+
+**Modeling Strategy:** My current plan is to start with a baseline linear regression model to establish benchmark performance, then plan to implement more complex methods (like XGBoost) for the final report to capture non-linear relationships. As of right now, only the linear regression model has been implemented and evaluated.
+
+**Evaluation:** The model is trained on 2022-2024 data and tested on 2025 data to ensure it generalizes to future dates. Performance is measured using RMSE (Root Mean Squared Error), MAE (Mean Absolute Error), and R² (coefficient of determination), as well as directly comparing predicted vs actual resutls.
+
+**Note about final product:** If time permits, I plan to create an interactive web app displaying a map of Boston with clickable stations where users can select a station and future date to see predicted demand.
+
+Anyways, a detailed chronological report of progress below:
 
 ---
 
