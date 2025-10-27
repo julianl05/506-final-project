@@ -15,7 +15,7 @@ The model will be trained on historical data from 2022-2024 and tested on 2025 d
 
 # Midterm Report
 
-**Video Presentation:** [5-minute YouTube link here]
+**Video Presentation:** [https://youtu.be/ujuK5KHPxrM]
 
 ---
 
