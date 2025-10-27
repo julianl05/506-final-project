@@ -12,7 +12,8 @@ Visualizations will include scatter plots showing relationships between key feat
 ## What is My Test Plan
 The model will be trained on historical data from 2022-2024 and tested on 2025 data to ensure it can predict future trip patterns. Will use Root Mean Squared Error and Mean Absolute Error to compare the predicted values to test values to determine accuracy. 
 
-## Midterm Report
+
+# Midterm Report
 
 **Video Presentation:** [5-minute YouTube link here]
 
@@ -136,7 +137,7 @@ station_id,start_station_name,date,trip_count,lat,lng,temp_mean,precipitation,wi
 
 ---
 
-### 2. Exploratory Data Analysis
+### 2. Exploratory Data Analysis (Visualisations and Feature Analysis)
 
 Now that I had clean data, I wanted to understand what actually drives bike demand so I could determine if the features I chose were actually relevant. I did this by creating lots of visualisations and doing correlation analysis with the features in the processed dataset.
 
@@ -237,7 +238,7 @@ This view better captures the true relationships:
 
 ---
 
-### 3. Modeling Approach
+### 3. Modeling So far
 
 **Model Choice:** Linear Regression (baseline)
 
