@@ -66,7 +66,7 @@ setup: check-system
 	python3 -m venv venv
 	@echo "Installing dependencies..."
 	./venv/bin/pip install --upgrade pip
-	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj itertools
+	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
 	@echo "✓ Virtual environment created and dependencies installed"
 	@echo ""
 	@echo "To activate: source venv/bin/activate"
