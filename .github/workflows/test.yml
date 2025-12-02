@@ -1,0 +1,71 @@
+name: Test Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
+    
+    - name: Validate dependencies
+      run: |
+        python -c "import pandas as pd; import numpy as np; import sklearn; import xgboost; print('✓ All dependencies installed successfully')"
+    
+    - name: Verify data folder structure
+      run: |
+        python -c "import os; assert os.path.exists('data/raw/dates'), 'dates folder missing'; assert os.path.exists('data/raw/trips'), 'trips folder missing'; assert os.path.exists('data/raw/weather'), 'weather folder missing'; assert os.path.exists('data/raw/stations'), 'stations folder missing'; print('✓ Data folder structure exists')"
+    
+    - name: Test calendar features script
+      run: |
+        python scripts/getCalendarFeatures.py
+        python -c "import pandas as pd; df = pd.read_csv('data/raw/calendar_features.csv'); assert len(df) == 1461, f'Expected 1461 rows, got {len(df)}'; assert df['is_holiday'].sum() > 0, 'No holidays found'; print(f'✓ Calendar features script works: {len(df)} dates, {df[\"is_holiday\"].sum()} holidays')"
+    
+    - name: Validate calendar features output
+      run: |
+        python -c "
+        import pandas as pd
+        df = pd.read_csv('data/raw/calendar_features.csv')
+        # Check required columns exist
+        required_cols = ['date', 'is_holiday', 'day_of_week', 'is_academic_break']
+        assert all(col in df.columns for col in required_cols), f'Missing columns. Expected {required_cols}, got {df.columns.tolist()}'
+        # Check day_of_week values are valid (0-6)
+        assert df['day_of_week'].min() >= 0 and df['day_of_week'].max() <= 6, 'Invalid day_of_week values'
+        # Check binary flags are 0 or 1
+        assert df['is_holiday'].isin([0, 1]).all(), 'is_holiday should be 0 or 1'
+        assert df['is_academic_break'].isin([0, 1]).all(), 'is_academic_break should be 0 or 1'
+        print('✓ Calendar features validation passed: all columns and data types correct')
+        "
+    
+    - name: Check notebook files exist
+      run: |
+        python -c "
+        import os
+        notebooks = [
+            'notebooks/01_process_data.ipynb',
+            'notebooks/02_visualisations_and_feature_extraction.ipynb', 
+            'notebooks/03_modeling.ipynb'
+        ]
+        for nb in notebooks:
+            assert os.path.exists(nb), f'{nb} not found'
+        print(f'✓ All {len(notebooks)} notebooks found')
+        "
+    
+    - name: Validate Makefile exists
+      run: |
+        test -f Makefile && echo "✓ Makefile exists"
