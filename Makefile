@@ -18,8 +18,9 @@ help:
 	@echo "Quick start for reproducing results:"
 	@echo "  1. make all"
 	@echo "  2. Open VS Code and run notebooks in order:"
-	@echo "     - notebooks/process_data.ipynb"
-	@echo "     - notebooks/linear_modeling.ipynb"
+	@echo "     - notebooks/01_process_data.ipynb"
+	@echo "     - notebooks/02_visualisations_and_feature_extraction.ipynb"
+	@echo "     - notebooks/03_modeling.ipynb"
 	@echo ""
 
 # Complete setup: environment, dependencies, and data validation
@@ -34,8 +35,9 @@ all: setup check-system data check-data
 	@echo "       source venv/bin/activate"
 	@echo ""
 	@echo "  2. Open VS Code and run notebooks in order:"
-	@echo "       - notebooks/process_data.ipynb"
-	@echo "       - notebooks/linear_modeling.ipynb"
+	@echo "       - notebooks/01_process_data.ipynb"
+	@echo "       - notebooks/02_visualisations_and_feature_extraction.ipynb"
+	@echo "       - notebooks/03_modeling.ipynb"
 	@echo ""
 
 # Check system dependencies (OpenMP for XGBoost on macOS)
