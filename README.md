@@ -285,6 +285,18 @@ The heatmap confirms that both temporal factors (day of week AND month) matter s
 
 The busiest stations cluster around MIT, Harvard, and Central Square - university areas with high commuter traffic. The top station (MIT at Mass Ave) averages 229 daily trips, while smaller suburban stations see around 5 trips per day.
 
+**Seasonal Geographic Animation:**
+
+![Seasonal Station Activity](visualizations/seasonal_station_activity.gif)
+
+*Month-by-month evolution of station activity across Greater Boston (Jan-Sep 2025). Bubble size and color intensity represent trip volume. Notice the dramatic system-wide increase from winter (Jan-Feb) to summer (Jul-Aug), with activity concentrated around MIT, Harvard, and Central Square regardless of season.*
+
+**Winter vs Summer Comparison:**
+
+![Winter Summer Comparison](visualizations/winter_summer_comparison.png)
+
+*Side-by-side comparison reveals the seasonal effect: summer months (Jul-Aug) show 60% higher total ridership than winter (Jan-Feb), with the increase distributed across all high-traffic stations rather than creating new geographic hotspots.*
+
 **Case Study: MIT Station**
 
 I picked the busiest station to examine patterns in detail:
@@ -606,6 +618,9 @@ xgb_model.fit(X_train, y_train)
 - **MAE**: 11.67 → 7.743 (34% reduction in average error)
 - **R²**: 0.731 → 0.835 (explains 84% vs 73% of variance)
 
+**Training Progress Visualization:**
+
+![XGBoost Training Progress](visualizations/xgboost_training_progress.gif)
 #### 4.3 Random Forest (Ensemble Comparison)
 
 **Motivation:** While XGBoost showed strong improvements, I tested Random Forest to compare boosting vs bagging approaches. Random Forest builds independent trees in parallel (bagging), whereas XGBoost builds trees sequentially to correct previous errors (boosting).
