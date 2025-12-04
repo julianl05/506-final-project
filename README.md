@@ -96,8 +96,7 @@ The script (`scripts/getCalendarFeatures.py`) generates `calendar_features.csv` 
 ### Run Makefile Setup 
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/julianl05/506-final-project.git
+# 1. Clone the repository and cd into repo
 cd 506-final-project
 
 # 2. Run complete setup (creates venv, installs dependencies, runs calendar data generation script, validates datasets exist and are placed in correct locations)
