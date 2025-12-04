@@ -127,6 +127,9 @@ make check-data    # Validate all required data files exist
   brew install libomp
   ```
 - **Operating System:** macOS, Linux, or Windows with WSL. Makefile is not setup to work with Windows.
+
+### Github Workflow
+- Note that I have a simple test workflow setup in `.github/workflows/test.yml`. The workflow runs on push and pull and does a couple basic tests.
 ---
 ## Introduction
 
@@ -289,7 +292,7 @@ The busiest stations cluster around MIT, Harvard, and Central Square - universit
 
 ![Seasonal Station Activity](visualizations/seasonal_station_activity.gif)
 
-*Month-by-month evolution of station activity across Greater Boston (Jan-Sep 2025). Bubble size and color intensity represent trip volume. Notice the dramatic system-wide increase from winter (Jan-Feb) to summer (Jul-Aug), with activity concentrated around MIT, Harvard, and Central Square regardless of season.*
+*Month-by-month evolution of station activity across Greater Boston (Jan 2023 - Dec 2024). Bubble size and color intensity represent trip volume. Notice the dramatic system-wide increase from winter (Jan-Feb) to summer (Jul-Aug), with activity concentrated around MIT, Harvard, and Central Square regardless of season.*
 
 **Winter vs Summer Comparison:**
 
@@ -492,6 +495,8 @@ Based on this systematic evaluation, I selected **9 input features** for modelin
 
 This feature set balances **statistical evidence** from correlation analysis, **domain knowledge** about bike-sharing demand drivers, and **practical considerations** like interpretability and avoiding overfitting.
 
+**Note:** The feature importance and impact analysis later on in Section 5 confirms all 8 selected base features contribute meaningfully across models, validating this selection approach.
+
 ---
 
 ### 4. Modeling Implementation
@@ -557,6 +562,8 @@ These limitations arise because Linear Regression assigns the **same weekday coe
 - Average prediction error of ±12 trips per station-day
 - Strong generalization (test performance nearly matches training)
 - **Key limitation**: Cannot capture station-specific temporal patterns
+
+**Note on feature scaling:** I tested StandardScaler normalization on all features, but it produced nearly identical results with slightly worse RMSE (unscaled: 16.74, scaled: 16.75). This confirms that feature scaling is unnecessary for Linear Regression when using one-hot encoded categorical variables alongside continuous features. The station dummy variables (0/1 binary) are already on the same scale as the normalized continuous features, making scaling redundant.
 
 #### 4.2 XGBoost (Gradient Boosted Trees)
 
@@ -832,18 +839,31 @@ Based on test set performance (the true measure of real-world prediction capabil
 
 **Why This is Satisfactory:**
 
-1. **Practical Accuracy**: With most stations averaging many trips per day, ±7 trip error should be within acceptable bounds for user planning:
+1. **Practical Accuracy**: With most stations averaging many trips per day, ±7 trip error is within acceptable bounds for user planning:
    - Users can reliably distinguish "busy" vs "quiet" stations by seeing the estimated trip count for that day. For example, estimated trip count under 50 would indicate a less busy station, whereas >100 would indicate very busy.
    - Day-to-day volatility is captured (unlike linear baseline which smoothed predictions), making estimations reasonably accurate.
 
-2. **Strong Generalization**: While there is a slight train-test gap, XGBoost still generalizes better than Random Forest and maintains strong test performance
+2. **Strong Generalization**: XGBoost generalizes better than Random Forest (12.2% vs 14.2% train-test gap) while maintaining strong test performance
 
 3. **Actionable Predictions**: The model successfully:
    - Identifies peak times (September weekdays, summer months)
    - Captures weather effects (rain reduces demand, warm temps increase)
    - Distinguishes station-specific patterns (MIT busy on weekdays, suburbs quieter)
 
-4. **Improvement Over Baseline**: RMSE reduction vs linear regression proves tree-based modeling was necessary
+4. **Station Ranking Validation**: 
+
+   To validate that XGBoost correctly identifies the busiest stations (crucial for helping users avoid crowded stations), I compared the top 10 stations ranked by actual mean daily trips vs XGBoost predictions on the 2025 test set:
+
+   ![Top 10 Stations Comparison](visualizations/top10_stations_actual_vs_predicted.png)
+
+   **Key Findings:**
+   - **Ranking Accuracy**: XGBoost correctly identifies 9/10 of the actual busiest stations in its top-10 predictions
+   - **Magnitude Accuracy**: Average prediction error for these high-traffic stations is ±11.0 trips (13.4%)
+   - **Consistent Performance**: All top stations show predicted values within 20% of actual demand
+
+   This demonstrates that XGBoost not only predicts trip counts accurately on average (R²=0.835), but specifically excels at identifying which stations will be busiest - the most critical information for users planning trips. The model successfully distinguishes between high-demand university area stations (MIT, Harvard, Central Square) and lower-traffic suburban locations, enabling reliable busy/quiet station classification.
+
+5. **Improvement Over Baseline**: 22% RMSE reduction vs linear regression (16.74 → 13.107) proves tree-based modeling was necessary
 
 **Addressing Initial Hypothesis:**
 - ✅ Weather affects demand (temperature, precipitation captured effectively)
@@ -884,3 +904,5 @@ Based on test set performance (the true measure of real-world prediction capabil
 
 5. **Ensemble Methods**:
    - Combine XGBoost + Linear Regression (XGBoost for complex patterns, Linear for stable baseline)
+
+
