@@ -128,8 +128,20 @@ make check-data    # Validate all required data files exist
   ```
 - **Operating System:** macOS, Linux, or Windows with WSL. Makefile is not setup to work with Windows.
 
-### Github Workflow
-- Note that I have a simple test workflow setup in `.github/workflows/test.yml`. The workflow runs on push and pull and does a couple basic tests.
+### GitHub Workflow and Testing
+
+This project includes automated testing via GitHub Actions (`.github/workflows/test.yml`).
+
+**What it validates:**
+- **Dependency installation**: Verifies all required Python packages (pandas, numpy, scikit-learn, xgboost, etc.) install correctly
+- **Data folder structure**: Checks that all required data directories exist (`data/raw/trips/`, `data/raw/weather/`, `data/raw/stations/`, `data/raw/dates/`)
+- **Calendar features script**: Runs `getCalendarFeatures.py` and validates output (1461 dates, correct holiday counts)
+- **Data integrity**: Verifies calendar features CSV has required columns (`date`, `is_holiday`, `day_of_week`, `is_academic_break`) with valid data types and value ranges
+- **Project structure**: Confirms all three Jupyter notebooks and Makefile exist
+
+**Triggers:**
+- Runs automatically on every push or pull request to `main` branch
+
 ---
 ## Introduction
 
@@ -536,7 +548,7 @@ Station location is the single most important predictor. By one-hot encoding it,
 - Model: `sklearn.linear_model.LinearRegression`
 - No regularization (standard OLS)
 - Fit using least squares optimization
-- **Note on feature scaling:** Tested StandardScaler normalization but it produced nearly identical results (slightly worse RMSE), confirming that scaling is unnecessary for Linear Regression.
+- **Note on feature scaling:** I tested StandardScaler normalization on all features, but it produced nearly identical results with slightly worse RMSE (unscaled: 16.74, scaled: 16.75). This confirms that feature scaling is unnecessary for Linear Regression when using one-hot encoded categorical variables alongside continuous features. The station dummy variables (0/1 binary) are already on the same scale as the normalized continuous features, making scaling redundant.
 
 **Linear Regression Performance:**
 
@@ -562,8 +574,6 @@ These limitations arise because Linear Regression assigns the **same weekday coe
 - Average prediction error of ±12 trips per station-day
 - Strong generalization (test performance nearly matches training)
 - **Key limitation**: Cannot capture station-specific temporal patterns
-
-**Note on feature scaling:** I tested StandardScaler normalization on all features, but it produced nearly identical results with slightly worse RMSE (unscaled: 16.74, scaled: 16.75). This confirms that feature scaling is unnecessary for Linear Regression when using one-hot encoded categorical variables alongside continuous features. The station dummy variables (0/1 binary) are already on the same scale as the normalized continuous features, making scaling redundant.
 
 #### 4.2 XGBoost (Gradient Boosted Trees)
 
@@ -835,13 +845,14 @@ Based on test set performance (the true measure of real-world prediction capabil
 
 **Original Goal:** Predict daily trip demand at Blue Bikes stations to help users plan trips by estimating which stations will be busy.
 
-**Final Result:** XGBoost model achieves **R²=0.835** on 2025 test data, explaining **84% of variance** in daily station demand with average error of **±7.7 trips**.
+**Final Result:** XGBoost model achieves **R²=0.835** on 2025 test data, explaining **84% of variance** in daily station demand with average error of **±7.7 trips**. XGBoost handles typical days extremely well: the median error is just 4.6 trips, and 75% of predictions fall within ±9.6 trips of actual demand. This level of accuracy makes the model practical for helping users identify busy vs quiet stations.
 
 **Why This is Satisfactory:**
 
 1. **Practical Accuracy**: With most stations averaging many trips per day, ±7 trip error is within acceptable bounds for user planning:
    - Users can reliably distinguish "busy" vs "quiet" stations by seeing the estimated trip count for that day. For example, estimated trip count under 50 would indicate a less busy station, whereas >100 would indicate very busy.
    - Day-to-day volatility is captured (unlike linear baseline which smoothed predictions), making estimations reasonably accurate.
+
 
 2. **Strong Generalization**: XGBoost generalizes better than Random Forest (12.2% vs 14.2% train-test gap) while maintaining strong test performance
 
