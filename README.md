@@ -41,6 +41,8 @@ All required datasets are available in a single Google Drive folder for easy acc
    ```
 4. The `calendar_features.csv` file will be auto-generated when you run `make all`
 
+![Data Folder Structure Example](visualizations/data_folder_structure.png)
+
 ---
 
 #### **Option 2: Original Data Collection Process I Used (For Reference)**
