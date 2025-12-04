@@ -17,7 +17,7 @@ The following data files are required:
 
 #### **Option 1: Quick Download (Recommended for Graders)**
 
-All required datasets are available in a single Google Drive folder for easy access (Note that google drive may split the download into multiple zip files if you try to download the whole folder at once):
+All required datasets are available in a single Google Drive folder for easy access (Note that google drive may split the download into multiple zip files if you try to download the whole folder at once. It will definitely split the trips folder into multiple zip files due to its size):
 
 📁 **[Download All Data from Google Drive](https://drive.google.com/drive/folders/1d2kYZuG_JKQV1iDsEM0z4ysgQemJL-rO?usp=drive_link)**
 
