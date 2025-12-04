@@ -1,5 +1,5 @@
 # Blue Bikes Station Demand Prediction Project - Final Report
-**Video Presentation:** []
+**Video Presentation:** [https://youtu.be/px2aOTlY5v4]
 
 ## Reproducibility, Setup and Data Download Guide
 
@@ -548,7 +548,7 @@ Station location is the single most important predictor. By one-hot encoding it,
 - Model: `sklearn.linear_model.LinearRegression`
 - No regularization (standard OLS)
 - Fit using least squares optimization
-- **Note on feature scaling:** I tested StandardScaler normalization on all features, but it produced nearly identical results with slightly worse RMSE (unscaled: 16.74, scaled: 16.75). This confirms that feature scaling is unnecessary for Linear Regression when using one-hot encoded categorical variables alongside continuous features. The station dummy variables (0/1 binary) are already on the same scale as the normalized continuous features, making scaling redundant.
+- **Note on feature scaling:** I tested StandardScaler normalization on all features, but it produced nearly identical results with slightly worse RMSE (unscaled: 16.74, scaled: 16.99). This confirms that feature scaling is unnecessary for Linear Regression when using one-hot encoded categorical variables alongside continuous features. The station dummy variables (0/1 binary) are already on the same scale as the normalized continuous features, making scaling redundant.
 
 **Linear Regression Performance:**
 
@@ -869,7 +869,7 @@ Based on test set performance (the true measure of real-world prediction capabil
 
    **Key Findings:**
    - **Ranking Accuracy**: XGBoost correctly identifies 9/10 of the actual busiest stations in its top-10 predictions
-   - **Magnitude Accuracy**: Average prediction error for these high-traffic stations is ±11.0 trips (13.4%)
+   - **Magnitude Accuracy**: Average prediction error for these high-traffic stations is ±18.8 trips (12.7%)
    - **Consistent Performance**: All top stations show predicted values within 20% of actual demand
 
    This demonstrates that XGBoost not only predicts trip counts accurately on average (R²=0.835), but specifically excels at identifying which stations will be busiest - the most critical information for users planning trips. The model successfully distinguishes between high-demand university area stations (MIT, Harvard, Central Square) and lower-traffic suburban locations, enabling reliable busy/quiet station classification.
