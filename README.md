@@ -17,9 +17,11 @@ The following data files are required:
 
 #### **Option 1: Quick Download (Recommended for Graders)**
 
-All required datasets are available in a single Google Drive folder for easy access:
+All required datasets are available in a single Google Drive folder for easy access (Note that google drive may split the download into multiple zip files if you try to download the whole folder at once):
 
 📁 **[Download All Data from Google Drive](https://drive.google.com/drive/folders/1d2kYZuG_JKQV1iDsEM0z4ysgQemJL-rO?usp=drive_link)**
+
+
 
 **Instructions:**
 1. Access the Google Drive folder using the link above
@@ -28,10 +30,10 @@ All required datasets are available in a single Google Drive folder for easy acc
    ```
    data/raw/
    ├── trips/
-   │   ├── 2022/  (12 CSV files)
-   │   ├── 2023/  (12 CSV files)
-   │   ├── 2024/  (12 CSV files)
-   │   └── 2025/  (9 CSV files)
+   │   ├── 2022/  (202201-bluebikes-tripdata.csv through 202212-bluebikes-tripdata.csv)
+   │   ├── 2023/  (202301-bluebikes-tripdata.csv through 202312-bluebikes-tripdata.csv)
+   │   ├── 2024/  (202401-bluebikes-tripdata.csv through 202412-bluebikes-tripdata.csv)
+   │   └── 2025/  (202501-bluebikes-tripdata.csv through 202509-bluebikes-tripdata.csv)
    ├── stations/
    │   └── -External-_Bluebikes_Station_List - current_bluebikes_stations (2).csv
    └── weather/
