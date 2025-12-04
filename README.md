@@ -120,6 +120,44 @@ make data          # Generate calendar features CSV
 make check-data    # Validate all required data files exist
 ```
 
+<details>
+<summary>Click here if Makefile doesn't work - Manual Setup Instructions</summary>
+
+#### Manual Virtual Environment Setup (Alternative to Makefile)
+
+If the Makefile fails or you're on a system where `make` is unavailable, follow these manual steps:
+
+**1. Check System Requirements (macOS only):**
+```bash
+# macOS users need OpenMP for XGBoost (make sure you have homebrew)
+brew install libomp
+
+# Navigate to project directory
+cd 506-final-project
+
+# Create virtual environment
+python3 -m venv venv
+
+# macOS/Linux:
+source venv/bin/activate
+
+# Windows (if using Git Bash/WSL):
+source venv/Scripts/activate
+
+# Upgrade pip
+pip install --upgrade pip
+
+# Install all required packages
+pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
+
+# Run calendar data generation script
+python scripts/getCalendarFeatures.py
+
+# Move generated file to correct location (if needed)
+mv data/raw/calendar_features.csv data/raw/dates/calendar_features.csv 2>/dev/null || true
+```
+</details>
+
 ### System Requirements
 - **macOS users:** Requires OpenMP for XGBoost
   ```bash
