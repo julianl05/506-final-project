@@ -152,7 +152,7 @@ source venv/Scripts/activate
 pip install --upgrade pip
 
 # Install all required packages
-pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
+pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj pillow
 
 # Run calendar data generation script
 python scripts/getCalendarFeatures.py

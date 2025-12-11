@@ -68,7 +68,7 @@ setup: check-system
 	python3 -m venv venv
 	@echo "Installing dependencies..."
 	./venv/bin/pip install --upgrade pip
-	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
+	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj pillow
 	@echo "✓ Virtual environment created and dependencies installed"
 	@echo ""
 	@echo "To activate: source venv/bin/activate"
@@ -77,7 +77,7 @@ setup: check-system
 install: check-system
 	@echo "Installing/updating dependencies..."
 	./venv/bin/pip install --upgrade pip
-	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj
+	./venv/bin/pip install pandas numpy matplotlib seaborn scikit-learn xgboost holidays jupyter contextily pyproj pillow
 	@echo "✓ Dependencies installed"
 
 # Generate calendar features CSV
